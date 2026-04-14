@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serenity — Mental Health Support</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sage: #7A9E7E;
+    --sage-light: #E8F0E9;
+    --sage-dark: #4A6B4E;
+    --stone: #F5F2EE;
+    --stone-dark: #E8E3DC;
+    --warm-white: #FDFCFA;
+    --text-primary: #2C2C2A;
+    --text-secondary: #6B6860;
+    --text-muted: #9C9A96;
+    --border: rgba(44,44,42,0.12);
+    --border-hover: rgba(44,44,42,0.25);
+    --danger: #C44B3A;
+    --danger-light: #FCF0EE;
+    --radius: 14px;
+    --radius-lg: 20px;
+    --shadow: 0 2px 16px rgba(44,44,42,0.08);
+    --shadow-lg: 0 8px 40px rgba(44,44,42,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--warm-white);
+    color: var(--text-primary);
+    font-size: 16px;
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+  h1, h2, h3, .serif { font-family: 'DM Serif Display', serif; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(253,252,250,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .nav-brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: var(--sage-dark);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+    cursor: pointer;
+  }
+  .nav-brand span { font-size: 1.3rem; }
+  .nav-links { display: flex; align-items: center; gap: 0.5rem; }
+  .nav-links button {
+    background: none; border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+    color: var(--text-secondary); padding: 6px 14px;
+    border-radius: 8px; transition: all 0.2s;
+    font-weight: 400;
+  }
+  .nav-links button:hover { background: var(--stone); color: var(--text-primary); }
+  .nav-links .btn-primary { background: var(--sage); color: white; font-weight: 500; }
+  .nav-links .btn-primary:hover { background: var(--sage-dark); }
+  #nav-user-info { font-size: 0.85rem; color: var(--text-secondary); display: none; align-items: center; gap: 10px; }
+  #nav-user-info .avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--sage-light); color: var(--sage-dark);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 500; font-size: 0.8rem; border: 2px solid var(--sage);
+  }
+
+  /* ─── PAGES ─── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ─── LANDING ─── */
+  #page-landing { background: var(--warm-white); }
+  .hero {
+    max-width: 1100px; margin: 0 auto;
+    padding: 6rem 2rem 4rem;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: center;
+  }
+  .hero-text h1 {
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    line-height: 1.15;
+    color: var(--text-primary);
+    margin-bottom: 1.2rem;
+  }
+  .hero-text h1 em { color: var(--sage-dark); font-style: italic; }
+  .hero-text p {
+    font-size: 1.05rem; color: var(--text-secondary);
+    margin-bottom: 2rem; max-width: 440px;
+  }
+  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 24px; border-radius: 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.95rem;
+    font-weight: 500; cursor: pointer; border: none;
+    transition: all 0.2s; text-decoration: none;
+  }
+  .btn-sage { background: var(--sage); color: white; }
+  .btn-sage:hover { background: var(--sage-dark); transform: translateY(-1px); box-shadow: var(--shadow); }
+  .btn-outline { background: transparent; color: var(--sage-dark); border: 1.5px solid var(--sage); }
+  .btn-outline:hover { background: var(--sage-light); }
+  .hero-visual {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .hero-card {
+    background: var(--stone);
+    border-radius: var(--radius);
+    padding: 1.2rem;
+    border: 1px solid var(--stone-dark);
+  }
+  .hero-card:first-child { grid-column: span 2; background: var(--sage-light); border-color: rgba(122,158,126,0.3); }
+  .hero-card .icon { font-size: 1.8rem; margin-bottom: 8px; }
+  .hero-card h3 { font-size: 0.9rem; font-weight: 500; color: var(--text-primary); margin-bottom: 4px; }
+  .hero-card p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; }
+
+  .disclaimer-banner {
+    background: #FFF9F0; border: 1px solid #F0DDB0;
+    border-radius: var(--radius); padding: 1rem 1.4rem;
+    margin: 0 auto 2rem; max-width: 800px;
+    font-size: 0.85rem; color: #7A6430;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .disclaimer-banner .di { font-size: 1.1rem; flex-shrink: 0; }
+
+  .section { padding: 5rem 2rem; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--sage); font-weight: 500; margin-bottom: 0.6rem;
+  }
+  .section h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); margin-bottom: 3rem; }
+
+  .features-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+  .feature-card {
+    background: var(--stone); border-radius: var(--radius);
+    padding: 1.8rem; border: 1px solid var(--stone-dark);
+    transition: all 0.25s;
+  }
+  .feature-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+  .feature-card .fi { font-size: 2rem; margin-bottom: 1rem; }
+  .feature-card h3 { font-size: 1.05rem; margin-bottom: 0.5rem; font-weight: 500; }
+  .feature-card p { font-size: 0.9rem; color: var(--text-secondary); }
+
+  /* ─── AUTH MODAL ─── */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(44,44,42,0.5);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem;
+  }
+  .modal-overlay.hidden { display: none; }
+  .modal {
+    background: var(--warm-white); border-radius: var(--radius-lg);
+    padding: 2.5rem; width: 100%; max-width: 420px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+  }
+  .modal h2 { font-size: 1.7rem; margin-bottom: 0.4rem; }
+  .modal .sub { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 2rem; }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 0.4rem; color: var(--text-secondary); }
+  .form-group input {
+    width: 100%; padding: 11px 14px;
+    border: 1.5px solid var(--border-hover); border-radius: 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.95rem;
+    background: white; color: var(--text-primary);
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-group input:focus { border-color: var(--sage); }
+  .form-error { font-size: 0.82rem; color: var(--danger); margin-top: 0.4rem; display: none; }
+  .form-error.show { display: block; }
+  .btn-full { width: 100%; justify-content: center; padding: 13px; font-size: 1rem; }
+  .modal-switch { text-align: center; font-size: 0.88rem; color: var(--text-secondary); margin-top: 1.2rem; }
+  .modal-switch a { color: var(--sage-dark); cursor: pointer; text-decoration: underline; }
+  .modal-close {
+    position: absolute; top: 1.2rem; right: 1.2rem;
+    background: none; border: none; cursor: pointer;
+    font-size: 1.3rem; color: var(--text-muted);
+    transition: color 0.2s;
+  }
+  .modal-close:hover { color: var(--text-primary); }
+
+  /* ─── THERAPY TYPES PAGE ─── */
+  #page-therapies { padding: 3rem 2rem; }
+  #page-therapies .page-header { max-width: 700px; margin: 0 auto 3rem; text-align: center; }
+  #page-therapies .page-header h1 { font-size: clamp(2rem, 4vw, 2.8rem); margin-bottom: 0.8rem; }
+  #page-therapies .page-header p { color: var(--text-secondary); font-size: 1rem; }
+
+  .therapy-cards { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+  .therapy-card {
+    background: white; border-radius: var(--radius-lg);
+    border: 1px solid var(--border); overflow: hidden;
+    transition: all 0.25s; cursor: pointer;
+    box-shadow: var(--shadow);
+  }
+  .therapy-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--sage); }
+  .therapy-card-header { padding: 2rem; }
+  .therapy-card-header .tc-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+  .therapy-card-header h2 { font-size: 1.4rem; margin-bottom: 0.3rem; color: var(--text-primary); }
+  .therapy-card-header .tc-tag {
+    display: inline-block; font-size: 0.75rem; font-weight: 500;
+    padding: 3px 10px; border-radius: 6px; margin-bottom: 1rem;
+    background: var(--sage-light); color: var(--sage-dark);
+  }
+  .therapy-card-body { padding: 0 2rem 2rem; }
+  .therapy-card-body p { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.2rem; line-height: 1.65; }
+  .tc-benefits { list-style: none; margin-bottom: 1.5rem; }
+  .tc-benefits li { font-size: 0.875rem; color: var(--text-secondary); padding: 4px 0; padding-left: 1.2rem; position: relative; }
+  .tc-benefits li::before { content: '✓'; position: absolute; left: 0; color: var(--sage); font-weight: 500; }
+  .tc-when { background: var(--stone); border-radius: 10px; padding: 0.9rem 1rem; font-size: 0.83rem; color: var(--text-secondary); margin-bottom: 1.5rem; }
+  .tc-when strong { color: var(--text-primary); display: block; font-size: 0.82rem; margin-bottom: 3px; }
+
+  /* ─── THERAPY SESSION PAGE ─── */
+  #page-session { display: none; }
+  #page-session.active { display: flex; flex-direction: column; height: calc(100vh - 60px); }
+  .session-layout { display: grid; grid-template-columns: 280px 1fr; flex: 1; min-height: 0; }
+  .session-sidebar {
+    background: var(--stone); border-right: 1px solid var(--border);
+    padding: 1.5rem; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 1rem;
+  }
+  .session-sidebar h3 { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; font-family: 'DM Sans', sans-serif; }
+  .session-info-card { background: white; border-radius: var(--radius); padding: 1rem; border: 1px solid var(--border); }
+  .session-info-card h4 { font-size: 0.95rem; font-weight: 500; margin-bottom: 0.4rem; }
+  .session-info-card p { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; }
+  .exercise-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .exercise-list li {
+    background: white; border: 1px solid var(--border);
+    border-radius: 8px; padding: 8px 12px;
+    font-size: 0.83rem; color: var(--text-secondary);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .exercise-list li:hover { border-color: var(--sage); color: var(--sage-dark); background: var(--sage-light); }
+
+  .session-main { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+  .session-header {
+    padding: 1rem 1.5rem; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 1rem;
+    background: white;
+  }
+  .session-header h2 { font-size: 1.1rem; flex: 1; }
+  .session-header .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--sage); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  .crisis-banner {
+    background: var(--danger-light); border-bottom: 1px solid #F5C5BE;
+    padding: 0.7rem 1.5rem; font-size: 0.85rem; color: var(--danger);
+    display: none; gap: 8px; align-items: center;
+  }
+  .crisis-banner.show { display: flex; }
+  .crisis-banner a { color: var(--danger); font-weight: 600; }
+
+  .chat-messages {
+    flex: 1; overflow-y: auto; padding: 1.5rem;
+    display: flex; flex-direction: column; gap: 1rem;
+    scroll-behavior: smooth;
+  }
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-track { background: transparent; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--stone-dark); border-radius: 4px; }
+
+  .message { display: flex; gap: 10px; max-width: 80%; animation: fadeUp 0.3s ease; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+  .message.user { align-self: flex-end; flex-direction: row-reverse; }
+  .message.assistant { align-self: flex-start; }
+  .msg-avatar {
+    width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; font-weight: 500;
+  }
+  .message.assistant .msg-avatar { background: var(--sage-light); color: var(--sage-dark); }
+  .message.user .msg-avatar { background: var(--stone); color: var(--text-secondary); }
+  .msg-bubble {
+    padding: 10px 14px; border-radius: 14px;
+    font-size: 0.92rem; line-height: 1.6;
+  }
+  .message.assistant .msg-bubble { background: var(--stone); color: var(--text-primary); border-bottom-left-radius: 4px; }
+  .message.user .msg-bubble { background: var(--sage); color: white; border-bottom-right-radius: 4px; }
+  .msg-time { font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; text-align: right; }
+  .message.assistant .msg-time { text-align: left; }
+
+  .typing-indicator { display: none; align-self: flex-start; align-items: center; gap: 8px; padding: 8px 0; }
+  .typing-indicator.show { display: flex; }
+  .typing-dots { display: flex; gap: 4px; }
+  .typing-dots span {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--sage);
+    animation: bounce 1.2s infinite;
+  }
+  .typing-dots span:nth-child(2){animation-delay:0.2s}
+  .typing-dots span:nth-child(3){animation-delay:0.4s}
+  @keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+
+  .chat-input-area {
+    padding: 1rem 1.5rem; border-top: 1px solid var(--border);
+    background: white;
+  }
+  .chat-disclaimer { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.7rem; text-align: center; }
+  .chat-input-row { display: flex; gap: 10px; align-items: flex-end; }
+  #chat-input {
+    flex: 1; border: 1.5px solid var(--border-hover);
+    border-radius: 12px; padding: 10px 14px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.92rem;
+    resize: none; max-height: 120px; min-height: 42px;
+    outline: none; transition: border-color 0.2s;
+    line-height: 1.5; color: var(--text-primary);
+    background: var(--warm-white);
+  }
+  #chat-input:focus { border-color: var(--sage); }
+  #send-btn {
+    width: 42px; height: 42px; border-radius: 10px;
+    background: var(--sage); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; flex-shrink: 0;
+  }
+  #send-btn:hover { background: var(--sage-dark); transform: scale(1.05); }
+  #send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  #send-btn svg { width: 18px; height: 18px; fill: white; }
+
+  /* ─── DASHBOARD ─── */
+  #page-dashboard { padding: 3rem 2rem; }
+  .dash-inner { max-width: 900px; margin: 0 auto; }
+  .dash-header { margin-bottom: 2.5rem; }
+  .dash-header h1 { font-size: 2rem; }
+  .dash-header p { color: var(--text-secondary); margin-top: 0.4rem; }
+  .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem; margin-bottom: 2.5rem; }
+  .stat-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.3rem; }
+  .stat-card .sv { font-size: 2rem; font-weight: 300; color: var(--sage-dark); font-family: 'DM Serif Display', serif; }
+  .stat-card .sl { font-size: 0.82rem; color: var(--text-muted); margin-top: 2px; }
+  .dash-section { margin-bottom: 2rem; }
+  .dash-section h2 { font-size: 1.2rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.6rem; }
+  .session-history { display: flex; flex-direction: column; gap: 10px; }
+  .history-item {
+    background: white; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 1rem 1.2rem; display: flex; align-items: center; gap: 1rem;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .history-item:hover { border-color: var(--sage); box-shadow: var(--shadow); }
+  .history-item .hi-type { font-size: 1.4rem; }
+  .history-item .hi-info { flex: 1; }
+  .history-item .hi-info h4 { font-size: 0.92rem; font-weight: 500; }
+  .history-item .hi-info p { font-size: 0.8rem; color: var(--text-muted); }
+  .history-item .hi-arrow { color: var(--text-muted); }
+  .therapy-quick-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .quick-link {
+    background: var(--stone); border: 1px solid var(--stone-dark); border-radius: var(--radius);
+    padding: 1.2rem; cursor: pointer; transition: all 0.2s; text-align: center;
+  }
+  .quick-link:hover { border-color: var(--sage); background: var(--sage-light); }
+  .quick-link .ql-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+  .quick-link h3 { font-size: 0.88rem; font-weight: 500; }
+  .empty-state { text-align: center; padding: 3rem; color: var(--text-muted); font-size: 0.9rem; }
+
+  /* ─── SESSION INTRO MODAL ─── */
+  .session-intro-modal { max-width: 480px; }
+  .session-intro-modal .therapy-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--sage-light); color: var(--sage-dark);
+    padding: 6px 14px; border-radius: 8px; font-size: 0.85rem;
+    font-weight: 500; margin-bottom: 1.2rem;
+  }
+  .session-intro-modal .consent-box {
+    background: var(--stone); border-radius: 10px; padding: 1rem;
+    font-size: 0.83rem; color: var(--text-secondary); margin: 1rem 0 1.5rem;
+    line-height: 1.6;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 1.5rem 2rem; }
+    .hero-visual { display: none; }
+    .session-layout { grid-template-columns: 1fr; }
+    .session-sidebar { display: none; }
+    .message { max-width: 92%; }
+    nav { padding: 0 1rem; }
+    #page-therapies { padding: 2rem 1rem; }
+    .therapy-cards { grid-template-columns: 1fr; }
+  }
+
+  /* ─── UTILS ─── */
+  .hidden { display: none !important; }
+  .text-sage { color: var(--sage-dark); }
+  .mt-1 { margin-top: 0.5rem; }
+  .page-fade { animation: pageFade 0.3s ease; }
+  @keyframes pageFade { from{opacity:0} to{opacity:1} }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" onclick="showPage('landing')">
+    <span>🌿</span> Serenity
+  </a>
+  <div class="nav-links" id="nav-guest">
+    <button onclick="showPage('therapies')">Therapy Types</button>
+    <button onclick="openModal('login')">Sign In</button>
+    <button class="btn-primary" onclick="openModal('signup')">Get Started</button>
+  </div>
+  <div id="nav-user-info">
+    <div class="avatar" id="nav-avatar">?</div>
+    <button style="background:none;border:none;cursor:pointer;font-size:0.88rem;color:var(--text-secondary);font-family:'DM Sans',sans-serif;" onclick="showPage('therapies')">Therapy Types</button>
+    <button style="background:none;border:none;cursor:pointer;font-size:0.88rem;color:var(--text-secondary);font-family:'DM Sans',sans-serif;" onclick="showPage('dashboard')">Dashboard</button>
+    <button style="background:none;border:none;cursor:pointer;font-size:0.88rem;color:var(--text-secondary);font-family:'DM Sans',sans-serif;" onclick="logout()">Sign Out</button>
+  </div>
+</nav>
+
+<!-- ─────────────── LANDING ─────────────── -->
+<div id="page-landing" class="page active">
+  <div class="hero">
+    <div class="hero-text">
+      <div class="section-label">Mental Health Support</div>
+      <h1>A calmer mind<br>begins <em>here</em></h1>
+      <p>Evidence-based therapeutic approaches, guided by AI, available whenever you need them. Your journey toward wellbeing starts with one conversation.</p>
+      <div class="disclaimer-banner" style="margin:0 0 1.5rem;max-width:100%;">
+        <span class="di">⚠️</span>
+        <span>Serenity is not a replacement for professional medical or psychiatric care. If you are in crisis, please contact a mental health professional or call a helpline immediately.</span>
+      </div>
+      <div class="hero-ctas">
+        <button class="btn btn-sage" onclick="openModal('signup')">Start Your Journey →</button>
+        <button class="btn btn-outline" onclick="showPage('therapies')">Explore Therapies</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div class="icon">💬</div>
+        <h3>Evidence-Based Approaches</h3>
+        <p>CBT, DBT, and Mindfulness — three proven therapy frameworks available anytime.</p>
+      </div>
+      <div class="hero-card">
+        <div class="icon">🔒</div>
+        <h3>Private & Secure</h3>
+        <p>Your conversations are stored securely and associated only with your account.</p>
+      </div>
+      <div class="hero-card">
+        <div class="icon">🌱</div>
+        <h3>Progress Over Time</h3>
+        <p>Track your sessions and revisit past conversations to see how far you've come.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="background:var(--stone)">
+    <div class="section-inner">
+      <div class="section-label">How It Works</div>
+      <h2>Support at every step</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="fi">🧠</div>
+          <h3>Choose Your Approach</h3>
+          <p>Select from CBT, DBT, or Mindfulness-Based Therapy — each tailored to different needs and goals.</p>
+        </div>
+        <div class="feature-card">
+          <div class="fi">✍️</div>
+          <h3>Guided Exercises</h3>
+          <p>Each session includes structured exercises to help you apply therapeutic techniques in your daily life.</p>
+        </div>
+        <div class="feature-card">
+          <div class="fi">📖</div>
+          <h3>Ongoing Sessions</h3>
+          <p>Return to previous conversations, track your progress, and build on insights from past sessions.</p>
+        </div>
+        <div class="feature-card">
+          <div class="fi">🤝</div>
+          <h3>Always Safe</h3>
+          <p>Built-in safety features detect distress and provide immediate guidance to professional resources.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────── THERAPIES ─────────────── -->
+<div id="page-therapies" class="page">
+  <div id="page-therapies-inner">
+    <div class="page-header" style="padding-top:3rem;">
+      <div class="section-label">Our Approach</div>
+      <h1>Three Paths to Healing</h1>
+      <p>Each therapy type offers a distinct framework. Explore them below, then choose the one that resonates with you.</p>
+    </div>
+    <div class="therapy-cards">
+
+      <div class="therapy-card" onclick="startSession('cbt')">
+        <div class="therapy-card-header">
+          <div class="tc-icon">🔄</div>
+          <div class="tc-tag">Cognitive Behavioral</div>
+          <h2>CBT</h2>
+        </div>
+        <div class="therapy-card-body">
+          <p>Cognitive Behavioral Therapy helps you identify and reshape negative thought patterns and behaviors that affect your mood and wellbeing.</p>
+          <strong style="font-size:0.82rem;color:var(--text-primary);display:block;margin-bottom:6px;">Key Benefits</strong>
+          <ul class="tc-benefits">
+            <li>Challenges distorted thinking patterns</li>
+            <li>Develops practical coping strategies</li>
+            <li>Builds problem-solving skills</li>
+            <li>Reduces anxiety and depression symptoms</li>
+          </ul>
+          <div class="tc-when">
+            <strong>Best for:</strong>
+            Anxiety, depression, phobias, OCD, PTSD, and negative thought spirals
+          </div>
+          <button class="btn btn-sage btn-full">Begin CBT Session →</button>
+        </div>
+      </div>
+
+      <div class="therapy-card" onclick="startSession('dbt')">
+        <div class="therapy-card-header">
+          <div class="tc-icon">⚖️</div>
+          <div class="tc-tag">Dialectical Behavior</div>
+          <h2>DBT</h2>
+        </div>
+        <div class="therapy-card-body">
+          <p>Dialectical Behavior Therapy blends acceptance and change strategies, teaching skills to manage intense emotions and improve relationships.</p>
+          <strong style="font-size:0.82rem;color:var(--text-primary);display:block;margin-bottom:6px;">Key Benefits</strong>
+          <ul class="tc-benefits">
+            <li>Emotion regulation skills</li>
+            <li>Distress tolerance techniques</li>
+            <li>Mindfulness integration</li>
+            <li>Interpersonal effectiveness</li>
+          </ul>
+          <div class="tc-when">
+            <strong>Best for:</strong>
+            Emotional dysregulation, borderline patterns, self-harm urges, intense relationships
+          </div>
+          <button class="btn btn-sage btn-full">Begin DBT Session →</button>
+        </div>
+      </div>
+
+      <div class="therapy-card" onclick="startSession('mindfulness')">
+        <div class="therapy-card-header">
+          <div class="tc-icon">🧘</div>
+          <div class="tc-tag">Mindfulness-Based</div>
+          <h2>Mindfulness</h2>
+        </div>
+        <div class="therapy-card-body">
+          <p>Mindfulness-Based Therapy cultivates present-moment awareness and non-judgmental acceptance, reducing the grip of rumination and stress.</p>
+          <strong style="font-size:0.82rem;color:var(--text-primary);display:block;margin-bottom:6px;">Key Benefits</strong>
+          <ul class="tc-benefits">
+            <li>Reduces stress and rumination</li>
+            <li>Improves emotional awareness</li>
+            <li>Promotes self-compassion</li>
+            <li>Enhances focus and presence</li>
+          </ul>
+          <div class="tc-when">
+            <strong>Best for:</strong>
+            Stress, burnout, chronic pain, sleep difficulties, general wellbeing
+          </div>
+          <button class="btn btn-sage btn-full">Begin Mindfulness Session →</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────── SESSION ─────────────── -->
+<div id="page-session" class="page">
+  <div class="session-layout">
+    <aside class="session-sidebar">
+      <h3>Your Session</h3>
+      <div class="session-info-card" id="sidebar-therapy-info">
+        <h4 id="sidebar-therapy-name">—</h4>
+        <p id="sidebar-therapy-desc"></p>
+      </div>
+
+      <h3>Try an Exercise</h3>
+      <ul class="exercise-list" id="exercise-list"></ul>
+
+      <h3>Reminder</h3>
+      <div class="session-info-card" style="background:var(--danger-light);border-color:#F5C5BE;">
+        <p style="font-size:0.78rem;color:#8B3325;line-height:1.55;">
+          If you're in crisis, please call <strong>Lifeline 13 11 14</strong> or visit your nearest emergency room. This AI is not a substitute for professional care.
+        </p>
+      </div>
+
+      <button class="btn btn-outline" style="width:100%;justify-content:center;margin-top:auto;" onclick="showPage('dashboard')">← Back to Dashboard</button>
+    </aside>
+
+    <div class="session-main">
+      <div class="session-header">
+        <div class="status-dot"></div>
+        <h2 id="session-title">Session</h2>
+        <span style="font-size:0.8rem;color:var(--text-muted)" id="session-date"></span>
+      </div>
+
+      <div class="crisis-banner" id="crisis-banner">
+        <span>🆘</span>
+        <span>It sounds like you may be in distress. Please reach out to <a href="tel:131114">Lifeline (13 11 14)</a> or <a href="https://www.beyondblue.org.au" target="_blank">Beyond Blue</a> for immediate support.</span>
+        <button onclick="document.getElementById('crisis-banner').classList.remove('show')" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:1.1rem;">×</button>
+      </div>
+
+      <div class="chat-messages" id="chat-messages"></div>
+
+      <div class="typing-indicator" id="typing-indicator">
+        <div class="msg-avatar" style="background:var(--sage-light);color:var(--sage-dark);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.85rem;">🌿</div>
+        <div class="typing-dots">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <div class="chat-input-area">
+        <div class="chat-disclaimer">Serenity is an AI support tool — not a licensed therapist. For emergencies, call 000 or Lifeline 13 11 14.</div>
+        <div class="chat-input-row">
+          <textarea id="chat-input" placeholder="Share what's on your mind..." rows="1"></textarea>
+          <button id="send-btn" onclick="sendMessage()">
+            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────── DASHBOARD ─────────────── -->
+<div id="page-dashboard" class="page">
+  <div class="dash-inner">
+    <div class="dash-header">
+      <h1>Welcome back, <span id="dash-username" class="text-sage">—</span></h1>
+      <p>Continue your journey or start a new session below.</p>
+    </div>
+
+    <div class="dash-grid">
+      <div class="stat-card">
+        <div class="sv" id="stat-sessions">0</div>
+        <div class="sl">Total Sessions</div>
+      </div>
+      <div class="stat-card">
+        <div class="sv" id="stat-messages">0</div>
+        <div class="sl">Messages Exchanged</div>
+      </div>
+      <div class="stat-card">
+        <div class="sv" id="stat-streak">0</div>
+        <div class="sl">Therapy Types Explored</div>
+      </div>
+    </div>
+
+    <div class="dash-section">
+      <h2>Start a Session</h2>
+      <div class="therapy-quick-links">
+        <div class="quick-link" onclick="startSession('cbt')">
+          <div class="ql-icon">🔄</div>
+          <h3>CBT Session</h3>
+        </div>
+        <div class="quick-link" onclick="startSession('dbt')">
+          <div class="ql-icon">⚖️</div>
+          <h3>DBT Session</h3>
+        </div>
+        <div class="quick-link" onclick="startSession('mindfulness')">
+          <div class="ql-icon">🧘</div>
+          <h3>Mindfulness Session</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-section">
+      <h2>Recent Conversations</h2>
+      <div class="session-history" id="session-history">
+        <div class="empty-state">No sessions yet. Start your first session above!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────── MODALS ─────────────── -->
+<!-- Auth Modal -->
+<div class="modal-overlay hidden" id="auth-modal">
+  <div class="modal" id="auth-modal-inner">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <!-- Login Form -->
+    <div id="form-login">
+      <h2>Welcome back</h2>
+      <p class="sub">Sign in to continue your sessions</p>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="login-email" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <div class="form-error" id="login-error">Incorrect email or password.</div>
+      <button class="btn btn-sage btn-full" onclick="doLogin()">Sign In</button>
+      <div class="modal-switch">Don't have an account? <a onclick="switchForm('signup')">Create one</a></div>
+    </div>
+    <!-- Signup Form -->
+    <div id="form-signup" class="hidden">
+      <h2>Create account</h2>
+      <p class="sub">Your journey to wellbeing starts here</p>
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" id="signup-name" placeholder="Your first name" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="signup-email" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="signup-password" placeholder="At least 8 characters" autocomplete="new-password">
+      </div>
+      <div class="form-error" id="signup-error">Please fill in all fields correctly.</div>
+      <button class="btn btn-sage btn-full" onclick="doSignup()">Create Account</button>
+      <div class="modal-switch">Already have an account? <a onclick="switchForm('login')">Sign in</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- Session Intro Modal -->
+<div class="modal-overlay hidden" id="session-intro-modal">
+  <div class="modal session-intro-modal">
+    <button class="modal-close" onclick="document.getElementById('session-intro-modal').classList.add('hidden')">×</button>
+    <div class="therapy-badge" id="si-badge">🔄 CBT</div>
+    <h2 id="si-title">Before We Begin</h2>
+    <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:0.5rem;" id="si-desc"></p>
+    <div class="consent-box">
+      <strong style="display:block;margin-bottom:6px;color:var(--text-primary);">Important Disclaimer</strong>
+      Serenity provides AI-guided therapeutic exercises and support. It is not a licensed therapist and cannot replace professional mental health care. By continuing, you acknowledge this is a wellness support tool only. If you are experiencing a mental health crisis, please contact emergency services or a crisis helpline.
+    </div>
+    <button class="btn btn-sage btn-full" onclick="confirmStartSession()">I Understand — Begin Session</button>
+  </div>
+</div>
+
+<script>
+// ──────────────── DATABASE (IndexedDB) ────────────────
+const DB_NAME = 'serenity_db';
+const DB_VERSION = 1;
+let db;
+
+function initDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, DB_VERSION);
+    req.onupgradeneeded = e => {
+      const d = e.target.result;
+      if (!d.objectStoreNames.contains('users')) {
+        const us = d.createObjectStore('users', { keyPath: 'id', autoIncrement: true });
+        us.createIndex('email', 'email', { unique: true });
+      }
+      if (!d.objectStoreNames.contains('messages')) {
+        const ms = d.createObjectStore('messages', { keyPath: 'id', autoIncrement: true });
+        ms.createIndex('session_id', 'session_id');
+        ms.createIndex('user_id', 'user_id');
+      }
+      if (!d.objectStoreNames.contains('sessions')) {
+        const ss = d.createObjectStore('sessions', { keyPath: 'id', autoIncrement: true });
+        ss.createIndex('user_id', 'user_id');
+      }
+    };
+    req.onsuccess = e => { db = e.target.result; resolve(db); };
+    req.onerror = e => reject(e);
+  });
+}
+
+function dbAdd(store, data) {
+  return new Promise((res, rej) => {
+    const tx = db.transaction(store, 'readwrite');
+    const req = tx.objectStore(store).add(data);
+    req.onsuccess = e => res(e.target.result);
+    req.onerror = e => rej(e);
+  });
+}
+
+function dbGet(store, key) {
+  return new Promise((res, rej) => {
+    const tx = db.transaction(store, 'readonly');
+    const req = tx.objectStore(store).get(key);
+    req.onsuccess = e => res(e.target.result);
+    req.onerror = e => rej(e);
+  });
+}
+
+function dbGetByIndex(store, index, value) {
+  return new Promise((res, rej) => {
+    const tx = db.transaction(store, 'readonly');
+    const req = tx.objectStore(store).index(index).getAll(value);
+    req.onsuccess = e => res(e.target.result);
+    req.onerror = e => rej(e);
+  });
+}
+
+function dbGetAll(store) {
+  return new Promise((res, rej) => {
+    const tx = db.transaction(store, 'readonly');
+    const req = tx.objectStore(store).getAll();
+    req.onsuccess = e => res(e.target.result);
+    req.onerror = e => rej(e);
+  });
+}
+
+function dbUpdate(store, data) {
+  return new Promise((res, rej) => {
+    const tx = db.transaction(store, 'readwrite');
+    const req = tx.objectStore(store).put(data);
+    req.onsuccess = e => res(e.target.result);
+    req.onerror = e => rej(e);
+  });
+}
+
+// ──────────────── AUTH ────────────────
+let currentUser = null;
+let sessionToken = null;
+
+async function hashPassword(pw) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function doSignup() {
+  const name = document.getElementById('signup-name').value.trim();
+  const email = document.getElementById('signup-email').value.trim().toLowerCase();
+  const pw = document.getElementById('signup-password').value;
+  const err = document.getElementById('signup-error');
+  err.classList.remove('show');
+  if (!name || !email || pw.length < 8) { err.textContent = 'Please fill all fields. Password must be 8+ characters.'; err.classList.add('show'); return; }
+  try {
+    const hash = await hashPassword(pw);
+    const id = await dbAdd('users', { name, email, password_hash: hash, created_at: Date.now() });
+    currentUser = { id, name, email };
+    sessionStorage.setItem('serenity_user', JSON.stringify(currentUser));
+    closeModal(); updateNav(); showPage('dashboard');
+  } catch(e) {
+    err.textContent = 'An account with this email already exists.'; err.classList.add('show');
+  }
+}
+
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim().toLowerCase();
+  const pw = document.getElementById('login-password').value;
+  const err = document.getElementById('login-error');
+  err.classList.remove('show');
+  try {
+    const users = await dbGetAll('users');
+    const hash = await hashPassword(pw);
+    const user = users.find(u => u.email === email && u.password_hash === hash);
+    if (!user) { err.classList.add('show'); return; }
+    currentUser = { id: user.id, name: user.name, email: user.email };
+    sessionStorage.setItem('serenity_user', JSON.stringify(currentUser));
+    closeModal(); updateNav(); showPage('dashboard');
+  } catch(e) { err.classList.add('show'); }
+}
+
+function logout() {
+  currentUser = null;
+  sessionStorage.removeItem('serenity_user');
+  updateNav();
+  showPage('landing');
+}
+
+function restoreSession() {
+  const saved = sessionStorage.getItem('serenity_user');
+  if (saved) { currentUser = JSON.parse(saved); updateNav(); }
+}
+
+function updateNav() {
+  const guestNav = document.getElementById('nav-guest');
+  const userInfo = document.getElementById('nav-user-info');
+  const avatar = document.getElementById('nav-avatar');
+  if (currentUser) {
+    guestNav.style.display = 'none';
+    userInfo.style.display = 'flex';
+    avatar.textContent = currentUser.name[0].toUpperCase();
+  } else {
+    guestNav.style.display = 'flex';
+    userInfo.style.display = 'none';
+  }
+}
+
+// ──────────────── PAGES ────────────────
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const pg = document.getElementById('page-' + id);
+  if (pg) { pg.classList.add('active', 'page-fade'); }
+  if (id === 'dashboard') loadDashboard();
+  window.scrollTo(0, 0);
+}
+
+// ──────────────── MODALS ────────────────
+function openModal(type) {
+  document.getElementById('auth-modal').classList.remove('hidden');
+  switchForm(type);
+}
+function closeModal() {
+  document.getElementById('auth-modal').classList.add('hidden');
+}
+function switchForm(type) {
+  document.getElementById('form-login').classList.toggle('hidden', type !== 'login');
+  document.getElementById('form-signup').classList.toggle('hidden', type !== 'signup');
+  document.getElementById('login-error').classList.remove('show');
+  document.getElementById('signup-error').classList.remove('show');
+}
+
+// ──────────────── THERAPY DATA ────────────────
+const THERAPIES = {
+  cbt: {
+    name: 'Cognitive Behavioral Therapy (CBT)',
+    short: 'CBT',
+    icon: '🔄',
+    desc: 'Identify and challenge negative thought patterns to improve mood and behavior.',
+    exercises: ['Thought Record', 'Behavioral Activation', 'Cognitive Restructuring', 'Exposure Hierarchy', 'Problem Solving'],
+    systemPrompt: `You are a compassionate and skilled CBT (Cognitive Behavioral Therapy) therapist named Serenity. 
+Your role is to help the user identify and challenge negative thought patterns, explore cognitive distortions, and develop healthier thinking and behavioral patterns.
+Use evidence-based CBT techniques: thought records, cognitive restructuring, behavioral activation, Socratic questioning.
+Keep responses warm, supportive, and concise (2-4 sentences unless more is needed).
+Always validate the user's feelings before offering a reframe. Never diagnose. 
+CRITICAL: If the user expresses thoughts of suicide, self-harm, or being in crisis, immediately and warmly direct them to call Lifeline at 13 11 14 or go to their nearest emergency room. This is the highest priority.`
+  },
+  dbt: {
+    name: 'Dialectical Behavior Therapy (DBT)',
+    short: 'DBT',
+    icon: '⚖️',
+    desc: 'Balance acceptance and change to manage intense emotions and improve relationships.',
+    exercises: ['TIPP Skills', 'DEAR MAN', 'Opposite Action', 'Mindfulness Check-In', 'Ride the Wave'],
+    systemPrompt: `You are a compassionate and skilled DBT (Dialectical Behavior Therapy) therapist named Serenity.
+Your role is to teach and practice DBT skills: mindfulness, distress tolerance, emotion regulation, and interpersonal effectiveness.
+Use DBT frameworks: TIPP, DEAR MAN, FAST, ACCEPTS, opposite action, riding the wave.
+Balance validation and change strategies — this dialectic is core to DBT.
+Keep responses warm, practical, and skills-focused. Never diagnose.
+CRITICAL: If the user expresses thoughts of suicide, self-harm, or being in crisis, immediately and warmly direct them to call Lifeline at 13 11 14 or go to their nearest emergency room.`
+  },
+  mindfulness: {
+    name: 'Mindfulness-Based Therapy',
+    short: 'Mindfulness',
+    icon: '🧘',
+    desc: 'Cultivate present-moment awareness and compassionate acceptance.',
+    exercises: ['Body Scan', 'Breathing Space', 'Mindful Walking', 'RAIN Practice', 'Loving-Kindness'],
+    systemPrompt: `You are a compassionate and skilled Mindfulness-Based therapist named Serenity.
+Your role is to guide the user in cultivating present-moment awareness, non-judgmental acceptance, and self-compassion.
+Draw from MBSR, MBCT, and ACT frameworks. Guide breathing exercises, body scans, and mindful observation.
+Invite curiosity and gentleness — never push. Responses should feel calm, grounding, and spacious.
+Keep responses warm and concise. Never diagnose.
+CRITICAL: If the user expresses thoughts of suicide, self-harm, or being in crisis, immediately and warmly direct them to call Lifeline at 13 11 14 or go to their nearest emergency room.`
+  }
+};
+
+const CRISIS_KEYWORDS = ['suicide', 'suicidal', 'kill myself', 'want to die', 'end my life', 'self-harm', 'hurt myself', 'cutting', 'overdose', 'hopeless', 'no reason to live'];
+
+// ──────────────── SESSION ────────────────
+let currentTherapyType = null;
+let currentSessionId = null;
+let chatHistory = [];
+
+function startSession(type) {
+  if (!currentUser) { openModal('signup'); return; }
+  currentTherapyType = type;
+  const t = THERAPIES[type];
+  document.getElementById('si-badge').textContent = t.icon + ' ' + t.short;
+  document.getElementById('si-title').textContent = 'Beginning ' + t.short + ' Session';
+  document.getElementById('si-desc').textContent = t.desc;
+  document.getElementById('session-intro-modal').classList.remove('hidden');
+}
+
+async function confirmStartSession() {
+  document.getElementById('session-intro-modal').classList.add('hidden');
+  const t = THERAPIES[currentTherapyType];
+
+  // Create new session in DB
+  const session = {
+    user_id: currentUser.id,
+    therapy_type: currentTherapyType,
+    started_at: Date.now(),
+    last_message_at: Date.now()
+  };
+  currentSessionId = await dbAdd('sessions', session);
+  chatHistory = [];
+
+  // Setup UI
+  document.getElementById('session-title').textContent = t.name;
+  document.getElementById('session-date').textContent = new Date().toLocaleDateString('en-AU', {weekday:'short',day:'numeric',month:'short'});
+  document.getElementById('sidebar-therapy-name').textContent = t.name;
+  document.getElementById('sidebar-therapy-desc').textContent = t.desc;
+
+  const exList = document.getElementById('exercise-list');
+  exList.innerHTML = t.exercises.map(e => `<li onclick="suggestExercise('${e}')">${e}</li>`).join('');
+
+  document.getElementById('chat-messages').innerHTML = '';
+  document.getElementById('crisis-banner').classList.remove('show');
+
+  showPage('session');
+
+  // Welcome message
+  const welcome = `Hello, I'm Serenity. Welcome to your ${t.short} session. I'm here to support you with evidence-based techniques in a safe, non-judgmental space. How are you feeling today, and what brings you here?`;
+  appendMessage('assistant', welcome, t.icon);
+  await saveMessage('assistant', welcome);
+  chatHistory.push({ role: 'assistant', content: welcome });
+}
+
+function suggestExercise(name) {
+  const input = document.getElementById('chat-input');
+  input.value = `Can you guide me through the ${name} exercise?`;
+  input.focus();
+}
+
+async function sendMessage() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text || !currentSessionId) return;
+
+  const t = THERAPIES[currentTherapyType];
+  input.value = '';
+  input.style.height = 'auto';
+
+  // Check crisis keywords
+  const lc = text.toLowerCase();
+  if (CRISIS_KEYWORDS.some(kw => lc.includes(kw))) {
+    document.getElementById('crisis-banner').classList.add('show');
+  }
+
+  appendMessage('user', text, currentUser.name[0].toUpperCase());
+  await saveMessage('user', text);
+  chatHistory.push({ role: 'user', content: text });
+
+  // Typing
+  const ti = document.getElementById('typing-indicator');
+  ti.classList.add('show');
+  document.getElementById('send-btn').disabled = true;
+  scrollChat();
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: t.systemPrompt,
+        messages: chatHistory
+      })
+    });
+
+    const data = await response.json();
+    const reply = data.content && data.content[0] ? data.content[0].text : "I'm sorry, I couldn't process that. Please try again.";
+
+    ti.classList.remove('show');
+    appendMessage('assistant', reply, t.icon);
+    await saveMessage('assistant', reply);
+    chatHistory.push({ role: 'assistant', content: reply });
+
+    // Update session timestamp
+    const sessions = await dbGetByIndex('sessions', 'user_id', currentUser.id);
+    const sess = sessions.find(s => s.id === currentSessionId);
+    if (sess) { sess.last_message_at = Date.now(); await dbUpdate('sessions', sess); }
+
+  } catch(e) {
+    ti.classList.remove('show');
+    const fallback = "I'm here with you. It seems there was a connection issue — please try again in a moment. Remember, whatever you're feeling right now is valid.";
+    appendMessage('assistant', fallback, t.icon);
+  }
+
+  document.getElementById('send-btn').disabled = false;
+  scrollChat();
+}
+
+function appendMessage(role, text, avatar) {
+  const container = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = `message ${role}`;
+  const time = new Date().toLocaleTimeString('en-AU', {hour:'2-digit', minute:'2-digit'});
+  div.innerHTML = `
+    <div class="msg-avatar">${avatar}</div>
+    <div>
+      <div class="msg-bubble">${escapeHtml(text)}</div>
+      <div class="msg-time">${time}</div>
+    </div>`;
+  container.appendChild(div);
+  scrollChat();
+}
+
+function scrollChat() {
+  const c = document.getElementById('chat-messages');
+  c.scrollTop = c.scrollHeight;
+}
+
+async function saveMessage(role, content) {
+  await dbAdd('messages', {
+    session_id: currentSessionId,
+    user_id: currentUser.id,
+    role,
+    content,
+    created_at: Date.now()
+  });
+}
+
+function escapeHtml(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+
+// ──────────────── DASHBOARD ────────────────
+async function loadDashboard() {
+  if (!currentUser) return;
+  document.getElementById('dash-username').textContent = currentUser.name;
+
+  const sessions = await dbGetByIndex('sessions', 'user_id', currentUser.id);
+  const messages = await dbGetByIndex('messages', 'user_id', currentUser.id);
+
+  document.getElementById('stat-sessions').textContent = sessions.length;
+  document.getElementById('stat-messages').textContent = messages.filter(m => m.role === 'user').length;
+  const types = new Set(sessions.map(s => s.therapy_type));
+  document.getElementById('stat-streak').textContent = types.size;
+
+  const historyEl = document.getElementById('session-history');
+  if (sessions.length === 0) {
+    historyEl.innerHTML = '<div class="empty-state">No sessions yet. Start your first session above!</div>';
+    return;
+  }
+
+  const sorted = [...sessions].sort((a,b) => b.last_message_at - a.last_message_at);
+  historyEl.innerHTML = sorted.slice(0, 8).map(s => {
+    const t = THERAPIES[s.therapy_type];
+    const msgCount = messages.filter(m => m.session_id === s.id && m.role === 'user').length;
+    const date = new Date(s.started_at).toLocaleDateString('en-AU', {day:'numeric', month:'short', year:'numeric'});
+    return `<div class="history-item" onclick="resumeSession(${s.id}, '${s.therapy_type}')">
+      <div class="hi-type">${t.icon}</div>
+      <div class="hi-info">
+        <h4>${t.short} Session</h4>
+        <p>${date} · ${msgCount} message${msgCount !== 1 ? 's' : ''}</p>
+      </div>
+      <div class="hi-arrow">→</div>
+    </div>`;
+  }).join('');
+}
+
+async function resumeSession(sessionId, type) {
+  currentTherapyType = type;
+  currentSessionId = sessionId;
+  const t = THERAPIES[type];
+
+  document.getElementById('session-title').textContent = t.name;
+  document.getElementById('session-date').textContent = new Date().toLocaleDateString('en-AU', {weekday:'short',day:'numeric',month:'short'});
+  document.getElementById('sidebar-therapy-name').textContent = t.name;
+  document.getElementById('sidebar-therapy-desc').textContent = t.desc;
+
+  const exList = document.getElementById('exercise-list');
+  exList.innerHTML = t.exercises.map(e => `<li onclick="suggestExercise('${e}')">${e}</li>`).join('');
+  document.getElementById('crisis-banner').classList.remove('show');
+
+  // Load previous messages
+  const msgs = await dbGetByIndex('messages', 'session_id', sessionId);
+  msgs.sort((a,b) => a.created_at - b.created_at);
+
+  chatHistory = [];
+  const container = document.getElementById('chat-messages');
+  container.innerHTML = '';
+
+  msgs.forEach(m => {
+    const avatar = m.role === 'assistant' ? t.icon : currentUser.name[0].toUpperCase();
+    appendMessage(m.role, m.content, avatar);
+    chatHistory.push({ role: m.role, content: m.content });
+  });
+
+  showPage('session');
+  scrollChat();
+}
+
+// ──────────────── KEYBOARD ────────────────
+document.getElementById('chat-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+});
+document.getElementById('chat-input').addEventListener('input', function() {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+});
+
+// Close modal on backdrop click
+document.getElementById('auth-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+document.getElementById('session-intro-modal').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.add('hidden');
+});
+
+// Enter key in auth forms
+document.getElementById('login-password').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+document.getElementById('signup-password').addEventListener('keydown', e => { if(e.key==='Enter') doSignup(); });
+
+// ──────────────── INIT ────────────────
+initDB().then(() => {
+  restoreSession();
+  updateNav();
+});
+</script>
+</body>
+</html>
